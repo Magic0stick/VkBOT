@@ -13,15 +13,13 @@ def found(b,a): ## фунция поиска
     r = requests.get(URL_TEMPLATE) #переменная запроса с сервера
     soup = bs(r.text, "html.parser") #переменная анализа информации
     wikiinfo = soup.find('div', class_="post") #поиск информации и задача переменной
-    answer = "нет информации"
-    info = ""
-    for info in wikiinfo: #цикл поиска текста(нужен при множественных ответах)
-        answer = info.text
-    answer = answer.replace("''","")
-    print(answer)
-    if answer == "":
-        answer = "нет информации"
-    write_msg(event.user_id, answer)
+    data = wikiinfo.text
+    if len(data) > 4093:
+        data = (data[0:4093] + '...')
+    return data
+
+
+
 
 def write_msg(user_id, message): #функция отправки сообщения
     print(message)
@@ -49,11 +47,8 @@ for event in longpoll.listen():
             # Сообщение от пользователя
             request = event.text
             
+            if request == "стоп":
+                break
             request = request.lower()
-            print(request)
             
-            print("run answer")
-            found(SlovarRU,request)
-            found(SlovarEN,request)
-            found(SlovarFR,request)
-            print("end answer")
+            write_msg(event.user_id,found(SlovarRU,request))
