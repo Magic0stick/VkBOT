@@ -21,6 +21,8 @@ def translateen(b,a):
     r = requests.get(URL_TEMPLATE) #переменная запроса с сервера
     soup = bs(r.text, "html.parser") #переменная анализа информации
     wikiinfo = soup.find('div', class_="ru_title") #поиск информации и задача переменной
+    if data == None:
+        data = "Ничего не найдено по вашему запросу"
     data = wikiinfo.text
     if len(data) > 4093:
         data = (data[0:4093] + '...')
@@ -32,6 +34,8 @@ def translatefr(b,a):
     r = requests.get(URL_TEMPLATE) #переменная запроса с сервера
     soup = bs(r.text, "html.parser") #переменная анализа информации
     wikiinfo = soup.find("p",class_="truncate") #поиск информации и задача переменной
+    if data == None:
+        data = "Ничего не найдено по вашему запросу"
     data = wikiinfo.text
     data = data[2:]
     if len(data) > 4093:
