@@ -4,6 +4,9 @@ import requests## импорт библиотеки запросов
 from bs4 import BeautifulSoup as bs## импорт библиотеки для разбора 
 from scr import *
 
+first = 0
+second = 0
+
 def found(b,a): ## фунция поиска
     URL_TEMPLATE = b + a ##переменная запроса
     URL_TEMPLATE = URL_TEMPLATE.replace(" ", "") #очистка от лишних пробелов
@@ -61,13 +64,33 @@ for event in longpoll.listen():
         # Если оно имеет метку для меня( то есть бота)
         if event.to_me:
         
+            
             # Сообщение от пользователя
             request = event.text
-            
-            if request == "стоп":
-                break
-            request = request.lower()
-            
-            write_msg(event.user_id,translateen(SlovarEN,request))
-            write_msg(event.user_id,translatefr(SlovarFR,request))
-            write_msg(event.user_id,found(SlovarRU,request))
+            if request[0] == "!":
+                request = request[1:]
+                if request.find("+") == 1:
+                    first == int(request[request.find("+") + 1])
+                    second == int(request[request.find("+") + 1:])
+                    write_msg(event.user_id,first+second)
+                if request.find("+") == 1:
+                    first == int(request[request.find("-") + 1])
+                    second == int(request[request.find("-") + 1:])
+                    write_msg(event.user_id,first-second)
+                if request.find("+") == 1:
+                    first == int(request[request.find("*") + 1])
+                    second == int(request[request.find("*") + 1:])
+                    write_msg(event.user_id,first*second)
+                else:
+                    first == int(request[request.find(":") + 1])
+                    second == int(request[request.find(":") + 1:])
+                    write_msg(event.user_id,first/second)
+                
+            else:
+                if request == "стоп":
+                    break
+                request = request.lower()
+
+                write_msg(event.user_id,translateen(SlovarEN,request))
+                write_msg(event.user_id,translatefr(SlovarFR,request))
+                write_msg(event.user_id,found(SlovarRU,request))
