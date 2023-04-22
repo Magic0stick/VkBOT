@@ -70,20 +70,20 @@ for event in longpoll.listen():
             if request[0] == "!":
                 request = request[1:]
                 if request.find("+") == 1:
-                    first == int(request[request.find("+") + 1])
-                    second == int(request[request.find("+") + 1:])
+                    first = int(request[request.find("+") + 1])
+                    second = int(request[request.find("+") + 1:])
                     write_msg(event.user_id,first+second)
                 if request.find("+") == 1:
-                    first == int(request[request.find("-") + 1])
-                    second == int(request[request.find("-") + 1:])
+                    first = int(request[request.find("-") + 1])
+                    second = int(request[request.find("-") + 1:])
                     write_msg(event.user_id,first-second)
                 if request.find("+") == 1:
-                    first == int(request[request.find("*") + 1])
-                    second == int(request[request.find("*") + 1:])
+                    first = int(request[request.find("*") + 1])
+                    second = int(request[request.find("*") + 1:])
                     write_msg(event.user_id,first*second)
                 else:
-                    first == int(request[request.find(":") + 1])
-                    second == int(request[request.find(":") + 1:])
+                    first = int(request[request.find(":") + 1])
+                    second = int(request[request.find(":") + 1:])
                     write_msg(event.user_id,first/second)
                 
             else:
